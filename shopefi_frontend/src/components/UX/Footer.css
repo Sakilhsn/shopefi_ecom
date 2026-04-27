@@ -1,0 +1,38 @@
+.footer {
+    background: #222;
+    color: white;
+    padding: 20px 0;
+    font-size: 14px;
+  }
+  
+  .footer-tagline {
+    font-style: italic;
+    font-size: 16px;
+    opacity: 0.8;
+  }
+  
+  .footer-links a {
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #ff416c;
+  }
+  
+  .footer-social a {
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .footer-social a:hover {
+    color: #ff4b2b;
+  }
+  
+  .footer-contact a {
+    text-decoration: none;
+    color: #ff416c;
+    font-weight: bold;
+  }
+  

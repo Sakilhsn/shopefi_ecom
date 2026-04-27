@@ -1,0 +1,236 @@
+/* 📦 Stylish Cart Page with Table Format */
+
+.cart-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cart-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Table Styling */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+.cart-table th {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.cart-table tbody tr:hover {
+    background: #f1f1f1;
+}
+
+.cart-product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* Price Styling */
+.discounted-price {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.final-price {
+    font-weight: bold;
+    font-size: 18px;
+    color: #dc3545;
+}
+
+/* Loading & Error Messages */
+.loading,
+.error-message,
+.empty-cart {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 15px;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .cart-product-img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* 📦 Stylish Cart Page with Table Format */
+
+.cart-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cart-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Table Styling */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+.cart-table th {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.cart-table tbody tr:hover {
+    background: #f1f1f1;
+}
+
+.cart-product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* Price Styling */
+.discounted-price {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.final-price {
+    font-weight: bold;
+    font-size: 18px;
+    color: #63b115;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-btn:hover {
+    background: #cc0000;
+}
+
+/* Loading & Error Messages */
+.loading,
+.error-message,
+.empty-cart {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 15px;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .cart-product-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .delete-btn {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+}
+
+/* Cart Page Enhancements */
+.order-summary {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.order-summary h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.place-order-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.place-order-btn:hover {
+    background: #218838;
+}

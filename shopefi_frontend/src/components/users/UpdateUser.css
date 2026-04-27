@@ -1,0 +1,106 @@
+/* UpdateUser.css */
+.update-user-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #4a90e2, #50e3c2);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .error-msg {
+    color: #ff4c4c;
+    font-size: 14px;
+  }
+  
+  .success-msg {
+    color: #4caf50;
+    font-size: 14px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: white;
+    color: #333;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Update Button */
+  .update-btn {
+    background: linear-gradient(135deg, #ffcc00, #ffdb4d);
+    color: #333;
+    box-shadow: 0 4px 10px rgba(255, 204, 0, 0.4);
+  }
+  
+  .update-btn:hover {
+    background: linear-gradient(135deg, #ffdb4d, #ffe680);
+    box-shadow: 0 6px 14px rgba(255, 204, 0, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  /* Back Button */
+  .back-btn {
+    background: linear-gradient(135deg, #555, #777);
+    color: white;
+    box-shadow: 0 4px 10px rgba(51, 51, 51, 0.4);
+  }
+  
+  .back-btn:hover {
+    background: linear-gradient(135deg, #777, #999);
+    box-shadow: 0 6px 14px rgba(51, 51, 51, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .update-user-container {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 22px;
+    }
+  
+    button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  

@@ -1,0 +1,160 @@
+.update-product-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .update-product-box {
+    width: 400px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .update-product-box h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-control-file {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-bottom: 10px;
+  }
+  
+  .stylish-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .stylish-btn:hover {
+    background: #0056b3;
+  }
+  
+  .message {
+    text-align: center;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .success-message {
+    color: green;
+    background: #e6f9e6;
+  }
+  
+  .error-message {
+    color: red;
+    background: #ffe6e6;
+  }
+  .update-product-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .update-product-box {
+    width: 400px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .update-product-box h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-control-file {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-bottom: 10px;
+  }
+  
+  .stylish-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .stylish-btn:hover {
+    background: #0056b3;
+  }
+  
+  .back-btn {
+    width: 100%;
+    padding: 10px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+  
+  .back-btn:hover {
+    background: #5a6268;
+  }
+  
+  .message {
+    text-align: center;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .success-message {
+    color: green;
+    background: #e6f9e6;
+  }
+  
+  .error-message {
+    color: red;
+    background: #ffe6e6;
+  }
+    
