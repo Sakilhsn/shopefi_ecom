@@ -20,10 +20,11 @@ const productSchema = mongoose.Schema({
         min: 0,
         max: 99
     },
-    "product_category":{
-        type: String,
-        required:[true,"product_category required"],
-    },
+   product_category: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "categoryModel",   // 👈 reference
+  required: true
+},
     "product_description":{
         type: String,
         required:[true,"product_description required"],

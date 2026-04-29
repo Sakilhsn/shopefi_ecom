@@ -109,7 +109,7 @@ const Home = () => {
                       src={imageUrl}
                       className="card-img-top rounded shadow-sm"
                       alt={product.product_name}
-                      style={{ height: "270px", width: "270px", objectFit: "cover" }}
+                      style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", objectFit: "contain" }}
                     />
                     <span className="badge-discount">{product.product_discount}% OFF</span>
                   </div>

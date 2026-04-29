@@ -7,7 +7,7 @@ require('dotenv').config();
 const SECRETKEY = process.env.ADMINPRIVATEKEY;
 
 // Generate token
-const generateToken = (admin) => jwt.sign({ _id: admin._id }, SECRETKEY, { expiresIn: "1h" });
+const generateToken = (admin) => jwt.sign({ _id: admin._id }, SECRETKEY, { expiresIn: "30d" });
 
 // Admin SignIn
 const adminSignIn = asyncHandler(async (req, res) => {
@@ -23,7 +23,7 @@ const adminSignIn = asyncHandler(async (req, res) => {
         }
 
         const token = generateToken(admin);
-        return res.status(200).json({ message: "Login successful", token });
+        return res.status(200).json({ message: "Login successful", token, user_id: admin._id });
     } catch (error) {
         console.error("Admin SignIn Error:", error);
         return res.status(500).json({ message: "Internal server error", error });

@@ -16,7 +16,7 @@ const hashPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(
 const checkPassword = (inputPassword, storedPassword) => bcrypt.compareSync(inputPassword, storedPassword);
 
 // Generate token
-const generateToken = (userInfo) => jwt.sign({ _id: userInfo._id }, SECRETKEY, { expiresIn: "1h" });
+const generateToken = (userInfo) => jwt.sign({ _id: userInfo._id }, SECRETKEY, { expiresIn: "30d" });
 
 // User Signup
 const userSignUp = asyncHandler(async (req, res) => {

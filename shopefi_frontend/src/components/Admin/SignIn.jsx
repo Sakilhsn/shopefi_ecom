@@ -21,7 +21,9 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
-        const { token } = response.data;
+        console.log("Admin Sign In Response:", response.data);
+        const { user_id,token } = response.data;
+        localStorage.setItem("user_id", user_id);
         localStorage.setItem("adminToken", token); // Save token to localStorage
 
         setMessage({ text: "Login successful! Redirecting...", type: "success" });

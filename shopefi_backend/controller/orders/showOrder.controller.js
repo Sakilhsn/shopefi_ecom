@@ -31,9 +31,12 @@ const getUserOrders = asyncHandler(async (req, res) => {
                 select: "product_name product_price product_discount product_image"
             });
 
-        if (!orders.length) {
-            return res.status(404).json({ message: "No orders found for this user" });
-        }
+      if (!orders || orders.length === 0) {
+  return res.status(200).json({
+    message: "No orders found",
+    orders: []   // 👈 IMPORTANT
+  });
+}
 
         // Formatting order details
         const orderDetails = orders.map(order => ({

@@ -15,6 +15,15 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1040);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 1040);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (!token || !userId) {
@@ -29,7 +38,8 @@ const Cart = () => {
       const response = await axios.get(`${BaseUrl}shopefi/orders/show/${userId}`, {
         headers: { token: token },
       });
-      const fetchedOrders = response.data.orders;
+      const fetchedOrders = response.data.orders || [];
+      console.log("Fetched Orders:", fetchedOrders);
       setOrders(fetchedOrders);
       calculateTotalAmount(fetchedOrders);
       setLoading(false);
@@ -75,57 +85,101 @@ const Cart = () => {
     // Here you can call an API to finalize the order
   };
 
+  const renderProductDetails = (product, orderId) => {
+    const discountAmount = (product.product_price * product.product_discount) / 100;
+    const discountedPrice = product.product_price - discountAmount;
+    const cgst = (discountedPrice * 9) / 100;
+    const sgst = (discountedPrice * 9) / 100;
+    const finalPrice = discountedPrice + cgst + sgst;
+
+    return {
+      discountedPrice,
+      cgst,
+      sgst,
+      finalPrice,
+    };
+  };
+
   if (loading) return <div className="loading">Loading your cart...</div>;
   if (error) return <div className="error-message">{error}</div>;
-  if (orders.length === 0) return <div className="empty-cart">Your cart is empty!</div>;
+  if (orders.length === 0) {
+    return (
+      <div className="empty-cart-container">
+        <div className="empty-cart-box">🛒 Your cart is empty!</div>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-container">
       <h2 className="cart-title">🛒 Your Shopping Cart</h2>
-      <table className="cart-table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Original Price</th>
-            <th>Discount</th>
-            <th>Discounted Price</th>
-            <th>CGST (9%)</th>
-            <th>SGST (9%)</th>
-            <th>Final Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
+
+      {isDesktop ? (
+        // ✅ TABLE VIEW for Desktop (>1040px)
+        <table className="cart-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Original Price</th>
+              <th>Discount</th>
+              <th>Discounted Price</th>
+              <th>CGST (9%)</th>
+              <th>SGST (9%)</th>
+              <th>Final Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) =>
+              order.products.map((product, idx) => {
+                const { discountedPrice, cgst, sgst, finalPrice } = renderProductDetails(product, order.order_id);
+                return (
+                  <tr key={`${index}-${idx}`}>
+                    <td>
+                      <img src={`${BaseUrl}/${product.product_image}`} alt={product.product_name} className="cart-product-img" />
+                    </td>
+                    <td>{product.product_name}</td>
+                    <td>₹{product.product_price.toFixed(2)}</td>
+                    <td>{product.product_discount}%</td>
+                    <td className="discounted-price">₹{discountedPrice.toFixed(2)}</td>
+                    <td>₹{cgst.toFixed(2)}</td>
+                    <td>₹{sgst.toFixed(2)}</td>
+                    <td className="final-price">₹{finalPrice.toFixed(2)}</td>
+                    <td>
+                      <button className="delete-btn" onClick={() => deleteOrder(order.order_id)}>🗑 Delete</button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      ) : (
+        // ✅ CARD VIEW for Mobile (≤1040px)
+        <div className="cart-cards">
           {orders.map((order, index) =>
             order.products.map((product, idx) => {
-              const discountAmount = (product.product_price * product.product_discount) / 100;
-              const discountedPrice = product.product_price - discountAmount;
-              const cgst = (discountedPrice * 9) / 100;
-              const sgst = (discountedPrice * 9) / 100;
-              const finalPrice = discountedPrice + cgst + sgst;
-
+              const { discountedPrice, cgst, sgst, finalPrice } = renderProductDetails(product, order.order_id);
               return (
-                <tr key={`${index}-${idx}`}>
-                  <td>
-                    <img src={`${BaseUrl}/${product.product_image}`} alt={product.product_name} className="cart-product-img" />
-                  </td>
-                  <td>{product.product_name}</td>
-                  <td>₹{product.product_price.toFixed(2)}</td>
-                  <td>{product.product_discount}%</td>
-                  <td className="discounted-price">₹{discountedPrice.toFixed(2)}</td>
-                  <td>₹{cgst.toFixed(2)}</td>
-                  <td>₹{sgst.toFixed(2)}</td>
-                  <td className="final-price">₹{finalPrice.toFixed(2)}</td>
-                  <td>
+                <div className="cart-card" key={`${index}-${idx}`}>
+                  <img src={`${BaseUrl}/${product.product_image}`} alt={product.product_name} className="cart-card-img" />
+                  <div className="cart-card-details">
+                    <h3 className="cart-card-title">{product.product_name}</h3>
+                    <p><strong>Original Price:</strong> ₹{product.product_price.toFixed(2)}</p>
+                    <p><strong>Discount:</strong> {product.product_discount}%</p>
+                    <p><strong>Discounted Price:</strong> <span className="discounted-price">₹{discountedPrice.toFixed(2)}</span></p>
+                    <p><strong>CGST (9%):</strong> ₹{cgst.toFixed(2)}</p>
+                    <p><strong>SGST (9%):</strong> ₹{sgst.toFixed(2)}</p>
+                    <p><strong>Final Price:</strong> <span className="final-price">₹{finalPrice.toFixed(2)}</span></p>
                     <button className="delete-btn" onClick={() => deleteOrder(order.order_id)}>🗑 Delete</button>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               );
             })
           )}
-        </tbody>
-      </table>
+        </div>
+      )}
 
       <div className="order-summary">
         <h3>Total Amount: ₹{Math.ceil(totalAmount.toFixed(2))}</h3>

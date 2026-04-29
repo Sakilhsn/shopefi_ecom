@@ -1,14 +1,15 @@
 /* UserDashboard.css */
 .user-dashboard {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
+  width: 100%;
+  max-width: 900px;          /* ✅ wider on desktop */
+  margin: 40px auto;
+  padding: 25px;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   color: #fff;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
 .user-dashboard h2 {
