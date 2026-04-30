@@ -16,7 +16,8 @@ import Cart from "./orders/Cart";
 import AddProducts from "./product/singleProduct/adminProducts/AddProducts";
 import UpdateProduct from "./product/singleProduct/adminProducts/UpdateProduct";
 import UpdateUser from "./users/UpdateUser";
-
+import AddCategory from "./category/AddCategory";
+import UpdateCategory from "./category/UpdateCategory";
 const Routing = () => {
   return (
     <>
@@ -34,6 +35,7 @@ const Routing = () => {
               <Route path="/admin/signin" element={<SignIn />} />
               <Route path="/admin/not-access/signup" element={<SignUp />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              {/* // AdminProduct Routes */}
               <Route
                 path="/admin/dashboard/add-product"
                 element={<AddProducts />}
@@ -41,6 +43,15 @@ const Routing = () => {
               <Route
                 path="/admin/dashboard/update/:pid"
                 element={<UpdateProduct />}
+              />
+              {/* // AdminCategory Routes */}
+              <Route
+                path="/admin/dashboard/add-category"
+                element={<AddCategory />}
+              />
+              <Route
+                path="/admin/dashboard/update-category/:cid"
+                element={<UpdateCategory />}
               />
 
               {/* User Routes */}

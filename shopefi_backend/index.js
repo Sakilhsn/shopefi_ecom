@@ -29,6 +29,9 @@ require('./model/dbConnect.config');
 const productRouter=require('./routes/products.routes');
 app.use('/shopefi/products/',productRouter);
 
+//category routes
+const categoryRouter=require('./routes/category.routes');
+app.use('/shopefi/category/',categoryRouter);
 // Admin Routes
 const adminRouter=require('./routes/admin.routes');
 app.use('/shopefi/super-admin/',adminRouter);

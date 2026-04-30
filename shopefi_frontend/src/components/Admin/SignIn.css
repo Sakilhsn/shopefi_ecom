@@ -1,13 +1,5 @@
 /* Center the login form */
-.signin-container {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f9f9f9;
-    padding: 20px;
-  }
-  
+
   /* Card-like form container */
   .signin-box {
     width: 350px;

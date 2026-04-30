@@ -15,6 +15,8 @@ const AdminDashboard = () => {
   // Pagination state
   const [currentPageProducts, setCurrentPageProducts] = useState(1);
   const [currentPageUsers, setCurrentPageUsers] = useState(1);
+  const [categories, setCategories] = useState([]);
+const [currentPageCategories, setCurrentPageCategories] = useState(1);
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -23,6 +25,7 @@ const AdminDashboard = () => {
     } else {
       fetchProducts();
       fetchUsers();
+      fetchCategories();
     }
   }, [adminToken]);
 
@@ -54,7 +57,21 @@ setProducts([]);
       console.error("Error fetching users:", error);
     }
   };
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${BaseUrl}shopefi/category/show`,{
+      headers: { token: adminToken },
+    });
 
+    if (response?.data?.categories) {
+      setCategories(response.data.categories);
+    } else {
+      setCategories([]);
+    }
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+};
   const handleDeleteProduct = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
@@ -67,7 +84,19 @@ setProducts([]);
       }
     }
   };
-
+const handleDeleteCategory = async (categoryId) => {
+  if (window.confirm("Are you sure you want to delete this category?")) {
+    try {
+      await axios.delete(
+        `${BaseUrl}shopefi/category/delete/${categoryId}`,
+        { headers: { token: adminToken } }
+      );
+      fetchCategories();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  }
+};
   const handleLogout = () => {
     localStorage.clear();
     navigate("/admin/signin");
@@ -83,6 +112,11 @@ setProducts([]);
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
+  // Pagination Logic for Categories
+ const indexOfLastCategory = currentPageCategories * itemsPerPage;
+const indexOfFirstCategory = indexOfLastCategory - itemsPerPage;
+const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+
   return (
     <div className="admin-dashboard">
       <div className="admin-header">
@@ -90,7 +124,72 @@ setProducts([]);
         <h2 className="m-2 px-2">Admin Dashboard</h2>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
+{/* Category Management Section */}
+<div className="section">
+  <h3>Manage Categories</h3>
 
+  <Link to="/admin/dashboard/add-category" className="add-btn">
+    Add Category
+  </Link>
+
+  <table className="dashboard-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Category Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {currentCategories.length > 0 ? (
+        currentCategories.map((cat) => (
+          <tr key={cat._id}>
+            <td>{cat._id}</td>
+            <td>{cat.category_name}</td>
+
+            <td>
+              <Link
+                to={`/admin/dashboard/update-category/${cat._id}`}
+                className="btn btn-warning"
+              >
+                Edit
+              </Link>
+            </td>
+
+            <td>
+              <button
+                onClick={() => handleDeleteCategory(cat._id)}
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="4">No categories found</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+
+  {/* Pagination */}
+  <div className="pagination">
+    {Array.from({
+      length: Math.ceil(categories.length / itemsPerPage),
+    }).map((_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentPageCategories(index + 1)}
+        className={currentPageCategories === index + 1 ? "active" : ""}
+      >
+        {index + 1}
+      </button>
+    ))}
+  </div>
+</div>
       {/* Product Management Section */}
       <div className="section">
         <h3>Manage Products</h3>

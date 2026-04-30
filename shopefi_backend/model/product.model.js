@@ -22,7 +22,7 @@ const productSchema = mongoose.Schema({
     },
    product_category: {
   type: mongoose.Schema.Types.ObjectId,
-  ref: "categoryModel",   // 👈 reference
+  ref: "categoryModel",   
   required: true
 },
     "product_description":{
