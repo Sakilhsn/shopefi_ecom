@@ -41,38 +41,7 @@ const placeOrder = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Order failed", error: error.message });
     }
 });
-// Place an Order
-// const placeOrder = asyncHandler(async (req, res) => {
-//     try {
-//         const { user_id, product_id, user_email, user_phone, user_name } = req.body;
 
-//         if (!user_id || !product_id || !user_email || !user_phone || !user_name) {
-//             return res.status(400).json({ message: "All fields are required" });
-//         }
-//         const userExists = await userModel.findById(user_id);
-//         if (!userExists) {
-//             return res.status(404).json({ message: "User not found" });
-//         }
-//         const productsExist = await productModel.find({ _id: { $in: product_id } });
-//         if (productsExist.length !== product_id.length) {
-//             return res.status(404).json({ message: "Some products not found" });
-//         }
-//         const newOrder = await orderModel.create({
-//             order_id: generateOrderId(),
-//             user_id,
-//             product_id,
-//             user_email,
-//             user_phone,
-//             user_name,
-//             order_date: Date.now()
-//         });
-
-//         return res.status(201).json({ message: "Order placed successfully", order: newOrder });
-//     } catch (error) {
-//         console.error("Order Placement Error:", error);
-//         return res.status(500).json({ message: "Internal server error", error });
-//     }
-// });
 
 
 

@@ -7,6 +7,13 @@ const userAuth= require('../middleware/userAuth');
 const addOrder=require('../controller/orders/addOrder.controller');
 orderRouter.post('/add-order/:uid',userAuth,addOrder);
 
+//create order for payment (User Protected)
+const createOrder=require('../controller/orders/createOrder.controller');
+orderRouter.post('/create-order/:uid',createOrder);
+
+// verify payment (User Protected)
+const verifyPayment=require('../controller/orders/verifyPayment.controller');
+orderRouter.post('/verify-payment',userAuth,verifyPayment);
 // Show Orders (User Protected)
 const showOrders=require('../controller/orders/showOrder.controller');
 orderRouter.get('/show/:user_id',userAuth,showOrders);

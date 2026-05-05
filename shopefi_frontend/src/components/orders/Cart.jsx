@@ -10,7 +10,7 @@ const Cart = () => {
   const Ids = localStorage.getItem("user_id");
   const getIds = Ids ? Ids.split(",") : [];
   const userId = getIds[1];
-
+console.log("🔑 User ID:", userId);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -79,12 +79,101 @@ const Cart = () => {
       alert("Failed to delete order!");
     }
   };
+const getProductIds = () => {
+  let ids = [];
 
-  const placeOrder = () => {
-    alert(`🎉 Order Placed Successfully! Total Amount: ₹${Math.ceil(totalAmount.toFixed(2))}`);
-    // Here you can call an API to finalize the order
-  };
+  orders.forEach(order => {
+    order.products.forEach(product => {
+      if (product.product_id) {
+        ids.push(product.product_id);
+      } else {
+        console.warn("⚠️ Missing product_id:", product);
+      }
+    });
+  });
 
+  console.log("✅ Final product_ids:", ids);
+  return ids;
+};
+  // const placeOrder = () => {
+  //   alert(`🎉 Order Placed Successfully! Total Amount: ₹${Math.ceil(totalAmount.toFixed(2))}`);
+  //   // Here you can call an API to finalize the order
+  // };
+const placeOrder = async () => {
+  try {
+    const product_ids = getProductIds();
+ const userIdForOrder = getIds[0];
+ console.log("📦 Placing order for products:", product_ids, "User ID:", userIdForOrder);
+    // ✅ STEP 1: Create Razorpay Order (YOUR API)
+    const res = await axios.post(
+      `http://localhost:4000/shopefi/orders/create-order/${userIdForOrder}`,
+      { product_ids },
+      { headers: { token } }
+    );
+
+    const order = res.data.razorOrder;
+
+    console.log("🧾 Razor Order:", order);
+
+    // ✅ STEP 2: Open Razorpay
+    const options = {
+      key: "rzp_test_SlLkKLlxRUYHSp",
+      amount: order.amount,
+      currency: order.currency,
+      order_id: order.id,
+
+      name: "Shopefi",
+      description: "Order Payment",
+
+      handler: async function (response) {
+        console.log("✅ Payment Success:", response);
+
+        // ✅ STEP 3: Verify Payment
+        const verifyRes = await axios.post(
+          `http://localhost:4000/shopefi/orders/verify-payment`,
+          {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            product_ids,
+            user_id: userIdForOrder
+          },
+          { headers: { token } }
+        );
+
+        if (verifyRes.data.success) {
+          alert("🎉 Payment Successful & Order Placed!");
+          fetchCartDetails(); // refresh cart
+        } else {
+          alert("❌ Payment verification failed");
+        }
+      },
+
+      prefill: {
+        name: "Alex Swift",
+        email: "alex@gmail.com",
+        contact: "8875674555",
+      },
+
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.error("❌ Payment Error:", err);
+    alert("Payment failed. Try again.");
+  }
+};
+useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  script.async = true;
+  document.body.appendChild(script);
+}, []);
   const renderProductDetails = (product, orderId) => {
     const discountAmount = (product.product_price * product.product_discount) / 100;
     const discountedPrice = product.product_price - discountAmount;

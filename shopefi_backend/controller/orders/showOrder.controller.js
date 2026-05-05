@@ -28,7 +28,7 @@ const getUserOrders = asyncHandler(async (req, res) => {
             })
             .populate({
                 path: "product_id",
-                select: "product_name product_price product_discount product_image"
+                select: "product_name product_price product_discount product_image product_id"
             });
 
       if (!orders || orders.length === 0) {
@@ -47,7 +47,8 @@ const getUserOrders = asyncHandler(async (req, res) => {
                 product_name: product.product_name,
                 product_price: product.product_price,
                 product_discount: product.product_discount,
-                product_image: product.product_image
+                product_image: product.product_image,
+                product_id: product.product_id
             }))
         }));
 
