@@ -27,7 +27,10 @@ const SignIn = () => {
         localStorage.setItem("adminToken", token); // Save token to localStorage
 
         setMessage({ text: "Login successful! Redirecting...", type: "success" });
-        setTimeout(() => navigate("/admin/dashboard"), 2000);
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+          window.location.reload();
+        }, 1500);
       } else {
         setMessage({ text: "Login failed. Please check your credentials.", type: "error" });
       }
