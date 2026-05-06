@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../../assets/logo.png';
 
 const Header = () => {
+const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+  !!localStorage.getItem("userToken")
+);
+const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
+  !!localStorage.getItem("adminToken")
+);
 
-  // ✅ Get tokens
-  const userToken = localStorage.getItem("userToken");
-  const adminToken = localStorage.getItem("adminToken");
+  useEffect(()=>{
+    const userToken = localStorage.getItem("userToken");
+    const adminToken = localStorage.getItem("adminToken");
 
-  const isLoggedIn = userToken || adminToken;
+    setIsAdminLoggedIn(!!adminToken)
+    setIsUserLoggedIn(!!userToken)
+  },[])
+
 
   // ✅ Logout function
   const handleLogout = () => {
@@ -63,10 +72,17 @@ const Header = () => {
           <ul className="navbar-nav ms-auto">
 
             <li className="nav-item">
-              <Link className="nav-link text-light fw-semibold px-2" to="/">Home</Link>
+              <Link className="nav-link text-light fw-semibold px-2" to="/">
+              {
+                isAdminLoggedIn ? ("Dashboard"):("Home")
+              }
+              </Link>
             </li>
 
-            <li className="nav-item">
+            {
+              isUserLoggedIn && (
+                <>
+                <li className="nav-item">
               <Link className="nav-link text-light fw-semibold px-2" to="/about">About</Link>
             </li>
 
@@ -75,6 +91,9 @@ const Header = () => {
                 <i className="fas fa-shopping-basket me-1"></i>Cart
               </Link>
             </li>
+            </>
+              )
+            }
 
             <li className="nav-item dropdown">
               <a
@@ -89,7 +108,7 @@ const Header = () => {
 
               <ul className="dropdown-menu dropdown-menu-end bg-light border-0 shadow">
 
-                {!isLoggedIn ? (
+                {!isUserLoggedIn && !isAdminLoggedIn ? (
                   <>
                     <li>
                       <Link className="dropdown-item py-2" to="/users/signin">
@@ -108,7 +127,7 @@ const Header = () => {
                     <li>
                       <Link
                         className="dropdown-item py-2"
-                        to={adminToken ? "/admin/dashboard" : "/users/dashboard"}
+                        to={isAdminLoggedIn ? "/admin/dashboard" : "/users/dashboard"}
                       >
                         <i className="fas fa-user-plus me-1"></i>Profile
                       </Link>
