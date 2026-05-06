@@ -14,22 +14,29 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [products, setProducts] = useState(null); // null for better error handling
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
   useEffect(() => {
     console.log("API URL:", `${BaseUrl}shopefi/products/show`);
 
-    axios.get(`${BaseUrl}shopefi/products/show`)
+    axios
+      .get(`${BaseUrl}shopefi/products/show`)
       .then((response) => {
         console.log("Full API Response:", response);
         console.log("Response Data:", response.data);
         setProducts(Array.isArray(response.data) ? response.data : []);
       })
       .catch((error) => {
-        console.error("API Error:", error.response ? error.response.data : error.message);
+        console.error(
+          "API Error:",
+          error.response ? error.response.data : error.message,
+        );
         setProducts(null);
       });
   }, []);
-  
 
   const sliderSettings = {
     dots: true,
@@ -50,14 +57,30 @@ const Home = () => {
   const filteredProducts =
     Array.isArray(products) && products.length > 0
       ? products.filter((product) =>
-          product.product_name?.toLowerCase().includes(searchTerm.toLowerCase())
+          product.product_name
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase()),
         )
       : [];
 
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
   return (
     <div className="container py-5">
-      <h1 className="text-center fw-bold text-gradient mb-4">Welcome to Shopefi</h1>
-      <p className="text-center text-muted">Discover the best products at unbeatable prices!</p>
+      <h1 className="text-center fw-bold text-gradient mb-4">
+        Welcome to Shopefi
+      </h1>
+      <p className="text-center text-muted">
+        Discover the best products at unbeatable prices!
+      </p>
 
       {/* Search Bar */}
       <div className="search-bar text-center mb-4">
@@ -90,13 +113,17 @@ const Home = () => {
       <div className="row mt-4">
         {products === null ? (
           <div className="text-center w-100">
-            <p className="text-danger">Error loading products. Please try again later.</p>
+            <p className="text-danger">
+              Error loading products. Please try again later.
+            </p>
           </div>
-        ) : filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => {
+        ) : currentProducts.length > 0 ? (
+          currentProducts.map((product) => {
             const originalPrice = parseFloat(product.product_price) || 0;
-            const discountPercentage = parseFloat(product.product_discount) || 0;
-            const discountedPrice = originalPrice * (1 - discountPercentage / 100);
+            const discountPercentage =
+              parseFloat(product.product_discount) || 0;
+            const discountedPrice =
+              originalPrice * (1 - discountPercentage / 100);
             const imageUrl = product.product_image.startsWith("http")
               ? product.product_image
               : `${BaseUrl}/${product.product_image}`;
@@ -109,15 +136,29 @@ const Home = () => {
                       src={imageUrl}
                       className="card-img-top rounded shadow-sm"
                       alt={product.product_name}
-                      style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", objectFit: "contain" }}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        aspectRatio: "1 / 1",
+                        objectFit: "contain",
+                      }}
                     />
-                    <span className="badge-discount">{product.product_discount}% OFF</span>
+                    <span className="badge-discount">
+                      {product.product_discount}% OFF
+                    </span>
                   </div>
                   <div className="card-body text-center">
-                    <h5 className="product-title stylish-title">{product.product_name}</h5>
+                    <h5 className="product-title stylish-title">
+                      {product.product_name}
+                    </h5>
                     <p className="original-price">₹{originalPrice}</p>
-                    <p className="discounted-price stylish-price">₹{discountedPrice.toFixed(2)}</p>
-                    <Link to={`/product/${product.product_id}/`} className="explore-btn stylish-button">
+                    <p className="discounted-price stylish-price">
+                      ₹{discountedPrice.toFixed(2)}
+                    </p>
+                    <Link
+                      to={`/product/${product.product_id}/`}
+                      className="explore-btn stylish-button"
+                    >
                       Explore More
                     </Link>
                   </div>
@@ -131,15 +172,52 @@ const Home = () => {
           </div>
         )}
       </div>
+      <div className="pagination">
+        <button
+          className="page-item"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
 
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          className="page-item"
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
       {/* Features Section */}
       <div className="features-section mt-5">
         <h2 className="text-center stylish-heading">Why Choose Shopefi?</h2>
         <div className="row mt-4">
           {[
-            { title: "🚀 Fast Delivery", desc: "Get your products delivered at lightning speed." },
-            { title: "💰 Best Prices", desc: "Unbeatable discounts and offers on all products." },
-            { title: "🛠 24/7 Support", desc: "Our support team is always here to help you." },
+            {
+              title: "🚀 Fast Delivery",
+              desc: "Get your products delivered at lightning speed.",
+            },
+            {
+              title: "💰 Best Prices",
+              desc: "Unbeatable discounts and offers on all products.",
+            },
+            {
+              title: "🛠 24/7 Support",
+              desc: "Our support team is always here to help you.",
+            },
           ].map((feature, index) => (
             <div className="col-md-4" key={index}>
               <div className="feature-card">
