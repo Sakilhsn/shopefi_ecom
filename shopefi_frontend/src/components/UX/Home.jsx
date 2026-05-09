@@ -10,6 +10,7 @@ import slider3 from "../../assets/slider3.jpg";
 import slider4 from "../../assets/slider4.jpg";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import botIcon from "../../assets/botIcon.png"
 
 const Home = () => {
   const [products, setProducts] = useState(null); // null for better error handling
@@ -18,6 +19,11 @@ const Home = () => {
   const productsPerPage = 12;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const [isChatOpen, setIsChatOpen] = useState(false);
+const [messages, setMessages] = useState([
+  { text: "Hi 👋 How can I help you?", sender: "bot" },
+]);
+const [input, setInput] = useState("");
 
   useEffect(() => {
     console.log("API URL:", `${BaseUrl}shopefi/products/show`);
@@ -75,6 +81,60 @@ const Home = () => {
 
   return (
     <div className="container py-5">
+      {/* Chatbot Button */}
+<div className="chatbot-icon" onClick={() => setIsChatOpen(!isChatOpen)}>
+ <img src={botIcon} alt="" />
+</div>
+
+{/* Chatbot Popup */}
+{isChatOpen && (
+  <div className="chatbot-popup">
+    <div className="chatbot-header">
+      <span>Support</span>
+      <button className="crossBtn" onClick={() => setIsChatOpen(false)}>✖</button>
+    </div>
+
+    <div className="chatbot-body">
+      {messages.map((msg, index) => (
+        <div
+          key={index}
+          className={`chat-message ${msg.sender === "bot" ? "bot" : "user"}`}
+        >
+          {msg.text}
+        </div>
+      ))}
+    </div>
+
+    <div className="chatbot-footer">
+      <input
+        type="text"
+        placeholder="Type a message..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button
+      className="sendBtn"
+        onClick={() => {
+          if (!input.trim()) return;
+
+          setMessages([...messages, { text: input, sender: "user" }]);
+
+          
+          setTimeout(() => {
+            setMessages((prev) => [
+              ...prev,
+              { text: "Thanks! We'll get back to you.", sender: "bot" },
+            ]);
+          }, 500);
+
+          setInput("");
+        }}
+      >
+        ➤
+      </button>
+    </div>
+  </div>
+)}
       <h1 className="text-center fw-bold text-gradient mb-4">
         Welcome to Shopefi
       </h1>
