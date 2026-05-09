@@ -40,6 +40,10 @@ app.use('/shopefi/super-admin/',adminRouter);
 const userRouter = require('./routes/user.routes');
 app.use('/shopefi/users/',userRouter);
 
+// Cart Routes
+const cartRoutes = require("./routes/cart.routes");
+app.use("/shopefi/cart", cartRoutes);
+
 // Order Routes
 const orderRouter=require('./routes/orders.routes');
 app.use('/shopefi/orders/',orderRouter);
