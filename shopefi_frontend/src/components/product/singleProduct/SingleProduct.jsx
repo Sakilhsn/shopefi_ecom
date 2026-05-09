@@ -39,32 +39,57 @@ const SingleProduct = () => {
   const discountAmount = (originalPrice * product.product_discount) / 100;
   const discountedPrice = originalPrice - discountAmount;
 
-  const handleAddToCart = async () => {
-    setMessage("");
-    setError("");
+  // const handleAddToCart = async () => {
+  //   setMessage("");
+  //   setError("");
 
-    if (!userId || !token) {
-      setError("Please sign in to add products to the cart.");
-      return;
+  //   if (!userId || !token) {
+  //     setError("Please sign in to add products to the cart.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${BaseUrl}shopefi/orders/add-order/${userId}`,
+  //       { product_ids: [pid] },
+  //       { headers: { token: token } }
+  //     );
+
+  //     if (response.status === 201) {
+  //       setMessage("Product added to cart successfully!");
+  //     } else {
+  //       setError("Failed to add product to cart.");
+  //     }
+  //   } catch (err) {
+  //     setError("Error adding to cart. Try again later.");
+  //   }
+  // };
+const handleAddToCart = async () => {
+  setMessage("");
+  setError("");
+
+  if (!userId || !token) {
+    setError("Please sign in to add products to the cart.");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      `${BaseUrl}shopefi/cart/add/${userId}`,
+      { product_id: pid },
+      { headers: { token: token } }
+    );
+
+    if (response.status === 200) {
+      setMessage("Product added to cart successfully!");
+    } else {
+      setError("Failed to add product to cart.");
     }
-
-    try {
-      const response = await axios.post(
-        `${BaseUrl}shopefi/orders/add-order/${userId}`,
-        { product_ids: [pid] },
-        { headers: { token: token } }
-      );
-
-      if (response.status === 201) {
-        setMessage("Product added to cart successfully!");
-      } else {
-        setError("Failed to add product to cart.");
-      }
-    } catch (err) {
-      setError("Error adding to cart. Try again later.");
-    }
-  };
-
+  } catch (err) {
+    console.error(err);
+    setError("Error adding to cart. Try again later.");
+  }
+};
   return (
     <div className="stylish-container">
       {/* Product Image */}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Razorpay Test</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<h2>Test Razorpay Payment</h2>
+<button id="pay-btn">Pay ₹4.99</button>
+
+<script>
+var options = {
+  key: "rzp_test_SlLkKLlxRUYHSp",
+  amount: 499,
+  currency: "INR",
+  name: "Shopefi",
+  description: "Test Payment",
+  order_id: "order_SlclFvdTjNnIww",
+
+  config: {
+    display: {
+      blocks: {
+        upi: {
+          name: "Pay using UPI",
+          instruments: [
+            {
+              method: "upi"
+            }
+          ]
+        }
+      },
+      sequence: ["block.upi"],
+      preferences: {
+        show_default_blocks: true
+      }
+    }
+  },
+
+  method: {
+    upi: true
+  },
+
+  handler: function (response) {
+    console.log(response);
+  }
+};
+
+var rzp = new Razorpay(options);
+rzp.open();
+</script>
+</body>
+</html>
