@@ -58,6 +58,7 @@ const UserSignIn = () => {
 
         setTimeout(() => {
           navigate("/users/dashboard");
+          window.location.reload();
         }, 1500); // Redirect after 1.5 seconds
       } else {
         setMessage({ text: response.data.message || "Login failed!", type: "error" });

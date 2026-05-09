@@ -99,7 +99,7 @@ const handleAddToCart = async () => {
 
       {/* Product Details */}
       <div className="details-container">
-        <span className="category-badge">{product.product_category}</span>
+        <span className="category-badge">{product.product_category.category_name}</span>
         <h1 className="stylish-title">{product.product_name}</h1>
         <p className="stylish-description">{product.product_description}</p>
 
