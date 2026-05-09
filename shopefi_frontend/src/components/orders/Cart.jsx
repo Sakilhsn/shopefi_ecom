@@ -120,7 +120,7 @@ console.log("🔄 Formatted Orders:", formatted);
     }
   };
 
-  // ✅ GET PRODUCT IDS FOR PAYMENT
+  // GET PRODUCT IDS FOR PAYMENT
   const getProductIds = () => {
     let ids = [];
 
@@ -135,7 +135,7 @@ console.log("🔄 Formatted Orders:", formatted);
     return ids;
   };
 
-  // ✅ RAZORPAY SAME
+  //  RAZORPAY SAME
   const placeOrder = async () => {
     try {
       const product_ids = getProductIds();
