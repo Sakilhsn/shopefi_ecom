@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../api/ApiPoint";
 import "./SingleProduct.css";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SingleProduct = () => {
   const { pid } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const userId = localStorage.getItem("user_id")?.split(",")[0];
   const token = localStorage.getItem("userToken");
@@ -32,7 +32,9 @@ const SingleProduct = () => {
   }
 
   if (!product) {
-    return <div className="text-center text-danger mt-5">Product not found</div>;
+    return (
+      <div className="text-center text-danger mt-5">Product not found</div>
+    );
   }
 
   const originalPrice = product.product_price;
@@ -64,65 +66,100 @@ const SingleProduct = () => {
   //     setError("Error adding to cart. Try again later.");
   //   }
   // };
-const handleAddToCart = async () => {
-  setMessage("");
-  setError("");
+  const handleAddToCart = async () => {
+    
 
-  if (!userId || !token) {
-    setError("Please sign in to add products to the cart.");
-    return;
-  }
-
-  try {
-    const response = await axios.post(
-      `${BaseUrl}shopefi/cart/add/${userId}`,
-      { product_id: pid },
-      { headers: { token: token } }
-    );
-
-    if (response.status === 200) {
-      setMessage("Product added to cart successfully!");
-    } else {
-      setError("Failed to add product to cart.");
+    if (!userId || !token) {
+      toast.error(" Please sign in to add products to the cart.");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    setError("Error adding to cart. Try again later.");
-  }
-};
+
+    try {
+      const response = await axios.post(
+        `${BaseUrl}shopefi/cart/add/${userId}`,
+        { product_id: pid, quantity },
+        { headers: { token: token } },
+      );
+
+      if (response.status === 200) {
+        toast.success("Product added to cart!");
+      } else {
+        toast.error("Failed to add product!");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add product!");
+    }
+  };
   return (
     <div className="stylish-container">
       {/* Product Image */}
       <div className="image-container">
-        <img src={`${BaseUrl}/${product.product_image}`} alt={product.product_name} className="stylish-image" />
+        <img
+          src={`${BaseUrl}/${product.product_image}`}
+          alt={product.product_name}
+          className="stylish-image"
+        />
       </div>
 
       {/* Product Details */}
       <div className="details-container">
-        <span className="category-badge">{product.product_category.category_name}</span>
+        <span className="category-badge">
+          {product.product_category.category_name}
+        </span>
         <h1 className="stylish-title">{product.product_name}</h1>
         <p className="stylish-description">{product.product_description}</p>
 
         {/* Price Section */}
         <div className="price-container">
           <span className="original-price">₹{originalPrice.toFixed(2)}</span>
-          <span className="discounted-price">₹{discountedPrice.toFixed(2)}</span>
-          <span className="discount-badge">{product.product_discount}% OFF</span>
+          <span className="discounted-price">
+            ₹{discountedPrice.toFixed(2)}
+          </span>
+          <span className="discount-badge">
+            {product.product_discount}% OFF
+          </span>
         </div>
+        {/* // Quantity Selector */}
+        <div className="qty-wrapper">
+          <strong>Quantity:</strong>
 
-        {/* Success & Error Messages */}
-        {message && <p className="success-msg">{message}</p>}
-        {error && <p className="error-msg">{error}</p>}
+          <div className="qty-box">
+            <button
+              className="qty-btn"
+              onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+            >
+              -
+            </button>
 
+            <span>{quantity}</span>
+
+            <button
+              className="qty-btn"
+              onClick={() => setQuantity(quantity + 1)}
+            >
+              +
+            </button>
+          </div>
+        </div>
         {/* Add to Cart Button */}
-        <button 
-          className={`stylish-button ${!userId || !token ? "disabled-button" : ""}`} 
+        <button
+          className={`stylish-button ${!userId || !token ? "disabled-button" : ""}`}
           onClick={handleAddToCart}
           disabled={!userId || !token}
         >
           {userId && token ? "Add to Cart" : "Sign in to Add to Cart"}
         </button>
       </div>
+        <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      pauseOnHover
+      theme="colored"
+    />
     </div>
   );
 };

@@ -116,6 +116,41 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+.qty-wrapper {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #007bff;
+  color: white;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.qty-btn:hover {
+  background: #0056b3;
+}
+
+.qty-box span {
+  min-width: 30px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 @media (max-width: 830px) {
   .stylish-container {
     flex-direction: column;   /* 👈 stack */
