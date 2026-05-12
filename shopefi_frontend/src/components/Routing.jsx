@@ -18,6 +18,7 @@ import UpdateProduct from "./product/singleProduct/adminProducts/UpdateProduct";
 import UpdateUser from "./users/UpdateUser";
 import AddCategory from "./category/AddCategory";
 import UpdateCategory from "./category/UpdateCategory";
+import Orders from "./orders/Orders";
 const Routing = () => {
   return (
     <>
@@ -61,6 +62,10 @@ const Routing = () => {
               <Route
                 path="/users/dashboard/update/:uid"
                 element={<UpdateUser />}
+              />
+              <Route
+                path="/users/orders"
+                element={<Orders />}
               />
 
               {/* Cart Details */}

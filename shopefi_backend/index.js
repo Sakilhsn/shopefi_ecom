@@ -48,6 +48,10 @@ app.use("/shopefi/cart", cartRoutes);
 const orderRouter=require('./routes/orders.routes');
 app.use('/shopefi/orders/',orderRouter);
 
+ // AI Routes
+const aiRouter = require("./routes/ai.routes");
+app.use("/shopefi/ai", aiRouter);
+
 app.listen(process.env.PORT,process.env.HOST,()=>{
     console.log(`Server Started at http://${process.env.HOST}:${process.env.PORT}`);
 })
