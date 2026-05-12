@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../api/ApiPoint";
+import "react-toastify/dist/ReactToastify.css";
 import "./SingleProduct.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 const SingleProduct = () => {
   const { pid } = useParams();
   const [product, setProduct] = useState(null);

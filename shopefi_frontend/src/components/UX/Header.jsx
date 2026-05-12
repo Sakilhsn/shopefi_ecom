@@ -79,8 +79,7 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
               </Link>
             </li>
 
-            {
-              isUserLoggedIn && (
+          
                 <>
                 <li className="nav-item">
               <Link className="nav-link text-light fw-semibold px-2" to="/about">About</Link>
@@ -92,8 +91,8 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
               </Link>
             </li>
             </>
-              )
-            }
+           
+          
 
             <li className="nav-item dropdown">
               <a

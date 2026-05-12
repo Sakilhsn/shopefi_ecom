@@ -151,6 +151,27 @@
   font-weight: bold;
 }
 
+.Toastify__toast {
+  display: flex !important;
+  align-items: center !important;
+  height: 12px;
+}
+
+.Toastify__toast-body {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.Toastify__close-button {
+  display: flex !important;
+  margin: auto 0;
+  height: 75% !important;
+  justify-content: flex-end !important;
+
+}
+
 @media (max-width: 830px) {
   .stylish-container {
     flex-direction: column;   /* 👈 stack */
