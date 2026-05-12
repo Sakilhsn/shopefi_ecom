@@ -72,7 +72,7 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
           <ul className="navbar-nav ms-auto">
 
             <li className="nav-item">
-              <Link className="nav-link text-light fw-semibold px-2" to="/">
+              <Link className="nav-link text-light fw-semibold px-2" to={isAdminLoggedIn?"/admin/dashboard":"/"}>
               {
                 isAdminLoggedIn ? ("Dashboard"):("Home")
               }
@@ -132,6 +132,17 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
                         <i className="fas fa-user-plus me-1"></i>Profile
                       </Link>
                     </li>
+                    <li>
+                    {isUserLoggedIn && (
+  <Link
+    className="dropdown-item py-2"
+    to="/users/orders"
+  >
+    <i className="fas fa-box me-1"></i>
+    Orders
+  </Link>
+)}
+</li>
 
                     <li>
                       <button

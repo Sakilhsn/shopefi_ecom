@@ -24,6 +24,7 @@ const [messages, setMessages] = useState([
   { text: "Hi 👋 How can I help you?", sender: "bot" },
 ]);
 const [input, setInput] = useState("");
+const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log("API URL:", `${BaseUrl}shopefi/products/show`);
@@ -78,7 +79,52 @@ const [input, setInput] = useState("");
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
-
+  //send Message to AI Bot
+const sendMessage = async () => {
+  if (!input.trim()) return;
+ 
+  // User message
+  const userMessage = {
+    text: input,
+    sender: "user",
+  };
+ 
+  setMessages((prev) => [...prev, userMessage]);
+ 
+  const userInput = input;
+ 
+  setInput("");
+ 
+  try {
+    setLoading(true);
+ 
+    const response = await axios.post(
+      `${BaseUrl}shopefi/ai/chat`,
+      {
+        message: userInput,
+      }
+    );
+ 
+    const botMessage = {
+      text: response.data.reply,
+      sender: "bot",
+    };
+ console.log("Bot Response:", response.data);
+    setMessages((prev) => [...prev, botMessage]);
+  } catch (error) {
+    console.log(error);
+ 
+    setMessages((prev) => [
+      ...prev,
+      {
+        text: "Something went wrong",
+        sender: "bot",
+      },
+    ]);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="container py-5">
       {/* Chatbot Button */}
@@ -114,21 +160,8 @@ const [input, setInput] = useState("");
       />
       <button
       className="sendBtn"
-        onClick={() => {
-          if (!input.trim()) return;
-
-          setMessages([...messages, { text: input, sender: "user" }]);
-
-          
-          setTimeout(() => {
-            setMessages((prev) => [
-              ...prev,
-              { text: "Thanks! We'll get back to you.", sender: "bot" },
-            ]);
-          }, 500);
-
-          setInput("");
-        }}
+        onClick={sendMessage}
+        disabled={loading}
       >
         ➤
       </button>
