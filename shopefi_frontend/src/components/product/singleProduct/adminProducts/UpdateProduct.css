@@ -1,15 +1,16 @@
 .update-product-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    background-color: #f8f9fa;
-    width: 100%;
-    
-  }
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 140px);
+  width: 100%;
+  padding: 40px 0px;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+}
   
   .update-product-box {
-    width: 500px;
+    width: 800px;
     padding: 20px;
     background: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -122,4 +123,24 @@
     color: red;
     background: #ffe6e6;
   }
-    
+  .existing-image {
+  margin: 15px 0;
+}
+
+.existing-image p {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.product-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+ .selected-image-name {
+  margin: 5px 0 10px;
+  font-size: 14px;
+  color: #555;
+}   

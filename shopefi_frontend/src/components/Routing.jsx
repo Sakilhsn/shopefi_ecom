@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter ,Navigate} from "react-router-dom";
 import Home from "./UX/Home";
 import ErrorPage from "./UX/ErrorPage";
 import Header from "./UX/Header";
@@ -19,6 +19,15 @@ import UpdateUser from "./users/UpdateUser";
 import AddCategory from "./category/AddCategory";
 import UpdateCategory from "./category/UpdateCategory";
 import Orders from "./orders/Orders";
+const RootRoute = () => {
+  const adminToken = localStorage.getItem("adminToken");
+
+  if (adminToken) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
+  return <Home />;
+};
 const Routing = () => {
   return (
     <>
@@ -28,7 +37,7 @@ const Routing = () => {
           <main className="main-content">
             <Routes>
               {/* Home Page */}
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<RootRoute />} />
               {/* Individual Products */}
               <Route path="/product/:pid" element={<SingleProduct />} />
 

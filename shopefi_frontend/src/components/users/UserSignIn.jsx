@@ -6,7 +6,7 @@ import "./UserSignIn.css";
 
 const UserSignIn = () => {
   const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     uemail: "",
     upass: "",
@@ -82,9 +82,27 @@ const UserSignIn = () => {
         <form onSubmit={handleSubmit}>
           <input type="email" name="uemail" className="form-control" placeholder="Email Address" value={formData.uemail} onChange={handleChange} required />
 
-          <input type="password" name="upass" className="form-control" placeholder="Password" value={formData.upass} onChange={handleChange} required />
+          <div className="password-input-wrapper">
+  <input
+    type={showPassword ? "text" : "password"}
+    name="upass"
+    className="form-control"
+    placeholder="Password"
+    value={formData.upass}
+    onChange={handleChange}
+    required
+  />
 
-          <button type="submit" className="stylish-btn">Sign In</button>
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+    aria-label={showPassword ? "Hide password" : "Show password"}
+  >
+    {showPassword ? "🙈" : "👁️"}
+  </button>
+</div>
+   <button type="submit" className="stylish-btn">Sign In</button>
         </form>
       </div>
     </div>

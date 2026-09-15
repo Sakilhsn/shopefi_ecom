@@ -7,6 +7,7 @@ import "./SignIn.css";
 const SignIn = () => {
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const navigate = useNavigate();
 
@@ -15,27 +16,42 @@ const SignIn = () => {
     setMessage({ text: "", type: "" });
 
     try {
-      const response = await axios.post(`${BaseUrl}shopefi/super-admin/signin`, {
-        admin_email: adminEmail,
-        admin_password: adminPassword,
-      });
+      const response = await axios.post(
+        `${BaseUrl}shopefi/super-admin/signin`,
+        {
+          admin_email: adminEmail,
+          admin_password: adminPassword,
+        }
+      );
 
       if (response.status === 200) {
         console.log("Admin Sign In Response:", response.data);
-        const { user_id,token } = response.data;
-        localStorage.setItem("user_id", user_id);
-        localStorage.setItem("adminToken", token); // Save token to localStorage
 
-        setMessage({ text: "Login successful! Redirecting...", type: "success" });
+        const { user_id, token } = response.data;
+
+        localStorage.setItem("user_id", user_id);
+        localStorage.setItem("adminToken", token);
+
+        setMessage({
+          text: "Login successful! Redirecting...",
+          type: "success",
+        });
+
         setTimeout(() => {
           navigate("/admin/dashboard");
           window.location.reload();
         }, 1500);
       } else {
-        setMessage({ text: "Login failed. Please check your credentials.", type: "error" });
+        setMessage({
+          text: "Login failed. Please check your credentials.",
+          type: "error",
+        });
       }
     } catch (error) {
-      setMessage({ text: "Invalid email or password. Try again.", type: "error" });
+      setMessage({
+        text: "Invalid email or password. Try again.",
+        type: "error",
+      });
     }
   };
 
@@ -45,7 +61,13 @@ const SignIn = () => {
         <h2 className="text-gradient">Admin Sign In</h2>
 
         {message.text && (
-          <p className={`message ${message.type === "success" ? "success-message" : "error-message"}`}>
+          <p
+            className={`message ${
+              message.type === "success"
+                ? "success-message"
+                : "error-message"
+            }`}
+          >
             {message.text}
           </p>
         )}
@@ -59,16 +81,30 @@ const SignIn = () => {
             onChange={(e) => setAdminEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            value={adminPassword}
-            onChange={(e) => setAdminPassword(e.target.value)}
-            required
-          />
 
-          <button type="submit" className="stylish-btn">Sign In</button>
+          <div className="password-input-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="Password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              required
+            />
+
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          <button type="submit" className="stylish-btn">
+            Sign In
+          </button>
         </form>
 
         <p className="signup-link">

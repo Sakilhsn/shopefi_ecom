@@ -87,9 +87,11 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link text-light fw-semibold px-2" to="/cart-details">
-                <i className="fas fa-shopping-basket me-1"></i>Cart
-              </Link>
+              {!isAdminLoggedIn && (
+                <Link className="nav-link text-light fw-semibold px-2" to="/cart-details">
+                  <i className="fas fa-shopping-basket me-1"></i>Cart
+                </Link>
+              )}
             </li>
             </>
               )
@@ -125,15 +127,17 @@ const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
                 ) : (
                   <>
                     <li>
+                      {!isAdminLoggedIn && (
                       <Link
                         className="dropdown-item py-2"
-                        to={isAdminLoggedIn ? "/admin/dashboard" : "/users/dashboard"}
+                        to="/users/dashboard"
                       >
                         <i className="fas fa-user-plus me-1"></i>Profile
                       </Link>
+                      )}
                     </li>
                     <li>
-                    {isUserLoggedIn && (
+                    {isUserLoggedIn && !isAdminLoggedIn &&(
   <Link
     className="dropdown-item py-2"
     to="/users/orders"

@@ -33,9 +33,13 @@ const Orders = () => {
         }
       );
 
-      console.log("📦 Orders:", response.data);
+      
 
-      setOrders(response.data.orders || []);
+     const sortedOrders = (response.data.orders || []).sort(
+      (a, b) => new Date(b.order_date) - new Date(a.order_date)
+    );
+
+    setOrders(sortedOrders);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -81,63 +85,79 @@ const Orders = () => {
       <h2 className="orders-title">📦 My Orders</h2>
 
       <div className="orders-grid">
-        {orders.map((order, index) => (
-          <div className="order-box" key={index}>
-            <div className="order-header">
-              <h3>Order ID: {order.order_id}</h3>
+        {orders.map((order, index) => {
+  const orderTotal = order.products.reduce((total, product) => {
+    const { finalPrice } = renderProductDetails(product);
+    return total + finalPrice;
+  }, 0);
+
+  return (
+    <div className="order-box" key={index}>
+      <div className="order-header">
+        <h3>Order ID: {order.order_id}</h3>
+
+        <p>
+          Date:{" "}
+          {new Date(order.order_date).toLocaleDateString()}
+        </p>
+      </div>
+
+      {order.products.map((product, idx) => {
+        const {
+          discountedPrice,
+          cgst,
+          sgst,
+          finalPrice,
+        } = renderProductDetails(product);
+
+        return (
+          <div className="order-product" key={idx}>
+            <img
+              src={`${BaseUrl}/${product.product_image}`}
+              alt={product.product_name}
+              className="order-product-img"
+            />
+
+            <div className="order-details">
+              <h4>{product.product_name}</h4>
+
               <p>
-                Date:{" "}
-                {new Date(order.order_date).toLocaleDateString()}
+                Original Price: ₹{product.product_price}
+              </p>
+
+              <p>
+                Discount: {product.product_discount}%
+              </p>
+
+              <p className="discounted-price">
+                Discounted: ₹{discountedPrice.toFixed(2)}
+              </p>
+
+              <p>
+                CGST: ₹{cgst.toFixed(2)}
+              </p>
+
+              <p>
+                SGST: ₹{sgst.toFixed(2)}
+              </p>
+
+              <p className="final-price">
+                Final Price: ₹{finalPrice.toFixed(2)}
               </p>
             </div>
-
-            {order.products.map((product, idx) => {
-              const { discountedPrice, cgst, sgst, finalPrice } =
-                renderProductDetails(product);
-
-              return (
-                <div className="order-product" key={idx}>
-                  <img
-                    src={`${BaseUrl}/${product.product_image}`}
-                    alt={product.product_name}
-                    className="order-product-img"
-                  />
-
-                  <div className="order-details">
-                    <h4>{product.product_name}</h4>
-
-                    <p>
-                      Original Price: ₹
-                      {product.product_price}
-                    </p>
-
-                    <p>
-                      Discount: {product.product_discount}%
-                    </p>
-
-                    <p className="discounted-price">
-                      Discounted: ₹
-                      {discountedPrice.toFixed(2)}
-                    </p>
-
-                    <p>
-                      CGST: ₹{cgst.toFixed(2)}
-                    </p>
-
-                    <p>
-                      SGST: ₹{sgst.toFixed(2)}
-                    </p>
-
-                    <p className="final-price">
-                      Final Price: ₹
-                      {finalPrice.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
           </div>
-        ))}
+        );
+      })}
+
+      {/* Order Total */}
+      <div className="order-total">
+        <h3>
+          Order Total: ₹{orderTotal.toFixed(2)}
+        </h3>
+      </div>
+    </div>
+  );
+})}
       </div>
     </div>
   );

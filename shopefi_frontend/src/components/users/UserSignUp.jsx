@@ -6,7 +6,7 @@ import "./UserSignUp.css";
 
 const UserSignUp = () => {
   const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     uname: "",
     uage: "",
@@ -105,7 +105,26 @@ const UserSignUp = () => {
 
           <input type="tel" name="uphone" className="form-control" placeholder="Phone Number" value={formData.uphone} onChange={handleChange} required />
 
-          <input type="password" name="upass" className="form-control" placeholder="Password" value={formData.upass} onChange={handleChange} required />
+          <div className="password-input-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="upass"
+            className="form-control"
+            placeholder="Password"
+            value={formData.upass}
+            onChange={handleChange}
+            required
+          />
+
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
 
           <button type="submit" className="stylish-btn">Sign Up</button>
         </form>
