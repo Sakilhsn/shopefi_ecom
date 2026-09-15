@@ -8,6 +8,7 @@ const SignUp = () => {
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -51,14 +52,25 @@ const SignUp = () => {
             onChange={(e) => setAdminEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            value={adminPassword}
-            onChange={(e) => setAdminPassword(e.target.value)}
-            required
-          />
+          <div className="password-input-wrapper">
+  <input
+    type={showPassword ? "text" : "password"}
+    className="form-control"
+    placeholder="Password"
+    value={adminPassword}
+    onChange={(e) => setAdminPassword(e.target.value)}
+    required
+  />
+
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+    aria-label={showPassword ? "Hide password" : "Show password"}
+  >
+    {showPassword ? "🙈" : "👁️"}
+  </button>
+</div>
 
           <button type="submit" className="stylish-btn">Sign Up</button>
         </form>
